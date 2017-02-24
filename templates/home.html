@@ -10,21 +10,67 @@
   </head>
   <body>
     <h1>House Status</h1>
-    {% for key, value in data.iteritems() %}
     <div class="card">
-    <div class="card-title">
-     {{key}}
-    </div>
-    {% if value.seconds/60 < 2 %}
-  	<div class="card-block">
-    		Active
-  	</div>
-	{% else %}
-	  	<div class="card-block">
-    		Last seen {{ (value.seconds/3600)|round(1)|int }} hours, {{ ((value.seconds % 3600)/60)|round|int }} minutes ago
-  	</div>
-	{% endif %}
+    <div class="card-block">
+    <h4 class="card-title">Jason</h4>
+    {% for device in data %}
+    {% if device.owner == 'Jason' %}
+    <h6 class="card-subtitle mb-2 text-muted">{{device.device_name}}</h6>
+    {% if device.is_home %}
+    <p class="card-text card-inverse card-success"> Home </p>
+    {% else %}
+    <p class="card-text">Last seen {{ device.last_seen_hours }} hours, {{ device.last_seen_minutes }} minutes ago</p>
+    {% endif %}
+    {% endif %}
     {% endfor %}
+  </div>
+</div>
+    <div class="card">
+    <div class="card-block">
+    <h4 class="card-title">Michael</h4>
+    {% for device in data %}
+    {% if device.owner == 'Michael' %}
+    <h6 class="card-subtitle mb-2 text-muted">{{device.device_name}}</h6>
+    {% if device.is_home %}
+    <p class="card-text card-inverse card-success"> Home </p>
+    {% else %}
+    <p class="card-text">Last seen {{ device.last_seen_hours }} hours, {{ device.last_seen_minutes }} minutes ago</p>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+    <div class="card">
+    <div class="card-block">
+    <h4 class="card-title">House</h4>
+    {% for device in data %}
+    {% if device.owner == 'House' %}
+    <h6 class="card-subtitle mb-2 text-muted">{{device.device_name}}</h6>
+    {% if device.is_home %}
+    <p class="card-text card-inverse card-success"> Home </p>
+    {% else %}
+    <p class="card-text">Last seen {{ device.last_seen_hours }} hours, {{ device.last_seen_minutes }} minutes ago</p>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+    <div class="card">
+    <div class="card-block">
+    <h4 class="card-title">Other</h4>
+    {% for device in data %}
+    {% if device.owner == 'Other' %}
+    <h6 class="card-subtitle mb-2 text-muted">{{device.device_name}}</h6>
+    {% if device.is_home %}
+    <p class="card-text card-inverse card-success"> Home </p>
+    {% else %}
+    <p class="card-text">Last seen {{ device.last_seen_hours }} hours, {{ device.last_seen_minutes }} minutes ago</p>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
 
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
