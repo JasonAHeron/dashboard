@@ -57,7 +57,7 @@ class DeviceOwner(object):
 def homepage():
     """Return the dashboard homepage."""
     user = users.get_current_user()
-    if user.email() not in VALID_USERS:
+    if not user or user.email().lower() not in VALID_USERS:
         login_url = users.create_login_url('/')
         return render_template('home.html', login_url=login_url)
 
