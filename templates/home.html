@@ -19,7 +19,7 @@
     <h4 class="card-title">{{device_owner.name}}</h4>
     {% for device in device_owner.devices %}
     <div class="card-block">
-    <h6 class="card-subtitle mb-2 text-muted">{{device.device_name}}</h6>
+    <h6 class="card-subtitle mb-2 text-muted">{{device.name}}</h6>
     {% if device.is_home %}
     <p class="card-text"> Home </p>
     {% else %}
