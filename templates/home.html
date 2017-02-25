@@ -4,13 +4,13 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <meta http-equiv="refresh" content="59">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   </head>
   <body>
-    {% if user %}
-    <h1>House Status, welcome {{user}}</h1>
+    {% if logged_in %}
+    <h1>Arlington Status</h1>
     {% else %}
     <h1><a href={{login_url}}>Log in</a></h1>
     {% endif %}
@@ -20,11 +20,7 @@
     {% for device in device_owner.devices %}
     <div class="card-block">
     <h6 class="card-subtitle mb-2 text-muted">{{device.name}}</h6>
-    {% if device.is_home %}
-    <p class="card-text"> Home </p>
-    {% else %}
     <p class="card-text">Last seen {{ device.last_seen_hours }} hours, {{ device.last_seen_minutes }} minutes ago</p>
-    {% endif %}
     </div>
     {% endfor %}
   </div>

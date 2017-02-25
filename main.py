@@ -17,7 +17,7 @@ DEVICE_OWNERS = {
     '0005CD626483': 'House',
 }
 PHONES = ['android-d8973f71e80d2c9b', 'Michaels-iPhone']
-VALID_USERS = ['jasonaheron@gmail.com', 'michael@stewart.io']
+VALID_USERS = ['jasonaheron@gmail.com', 'michael@stewart.io', 'arlingtondashboard@gmail.com']
 
 
 class Device(object):
@@ -29,15 +29,15 @@ class Device(object):
 
     @property
     def is_home(self):
-        return self.last_seen.seconds // 60 < 2
+        return self.last_seen.seconds / 60 <= 2
 
     @property
     def last_seen_minutes(self):
-        return (self.last_seen.seconds % 3600) // 60
+        return (self.last_seen.seconds % 3600) / 60
 
     @property
     def last_seen_hours(self):
-        return self.last_seen.seconds // 3600
+        return self.last_seen.seconds / 3600
 
     @property
     def is_phone(self):
@@ -70,14 +70,6 @@ def homepage():
 
     device_connections = DeviceConnection.query()
     now = datetime.now()
-
-    owners = {
-        'Jason': Owner('Jason', now),
-        'Michael': Owner('Michael', now),
-        'House': Owner('House', now),
-        'Other': Owner('Other', now)
-    }
-
     owners = {}
 
     for device_connection in device_connections:
@@ -88,7 +80,12 @@ def homepage():
             owners[owner_name] = Owner(owner_name, now)
             owners[owner_name].add_device(device_connection)
 
-    return render_template('home.html', user=user, data=sorted(owners.values(), key=lambda x: x.name, reverse=True))
+    owners_to_display = []
+    owners_to_display.append(owners.get('Jason'))
+    owners_to_display.append(owners.get('Michael'))
+    owners_to_display.append(owners.get('Other'))
+
+    return render_template('home.html', logged_in=True, data=[owner for owner in owners_to_display if owner is not None])
 
 
 @app.route('/arp')
