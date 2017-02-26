@@ -11,14 +11,24 @@
         body {
             background-image: url({{backgroud}});
         }
+        .card {
+            opacity: 0.7;
+        }
     </style>
   </head>
   <body>
     {% if logged_in %}
-    <h1>Arlington Status</h1>
+    <div class="card">
+    <div class="align-items-start">
+    <h1 class="card-text">Arlington Status</h1>
+    </div>
+    </div>
     {% else %}
     <h1><a href={{login_url}}>Log in</a></h1>
     {% endif %}
+    <div class="container-fluid">
+    <div class="row">
+    <div class="col">
     {% for device_owner in data%}
     <div class="card {{ 'card-inverse card-success' if device_owner.is_home else '' }}">
     <h4 class="card-title">{{device_owner.name}}</h4>
@@ -30,7 +40,19 @@
     {% endfor %}
   </div>
   {% endfor %}
-
+  </div>
+  <div class="col-5">
+  </div>
+  <div class="col">
+      <div class="card">
+          <h4 class="card-title">BART -> SFO</h4>
+      </div>
+    <div class="card">
+          <h4 class="card-title">BART -> OAK</h4>
+      </div>
+  </div>
+  </div>
+    </div>
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
