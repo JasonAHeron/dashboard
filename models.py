@@ -28,8 +28,12 @@ class Device(object):
         self.name = device_connection.device_name
 
     @property
+    def last_seen_days(self):
+        return self.last_seen.days
+
+    @property
     def is_home(self):
-        return self.last_seen.seconds / 60 <= 2
+        return self.last_seen.seconds / 60 <= 2 and self.last_seen.days == 0
 
     @property
     def last_seen_minutes(self):
