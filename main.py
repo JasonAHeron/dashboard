@@ -1,6 +1,7 @@
+"""Arlington Dashboard."""
 from constants import VALID_USERS, DEVICE_OWNERS, BACKGROUNDS
 from datetime import datetime
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect
 from google.appengine.api import users, memcache
 from models import DeviceConnection, Owner
 from utils import KeyDefaultDict
@@ -8,6 +9,7 @@ import random
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
+ONE_DAY = 86400
 
 
 @app.route('/')
@@ -16,16 +18,14 @@ def homepage():
     user = users.get_current_user()
     if not user or user.email().lower() not in VALID_USERS:
         login_url = users.create_login_url('/')
-        return render_template('home.html', login_url=login_url)
+        return redirect(login_url, code=302)
 
-    device_connections = DeviceConnection.query()
     owners = KeyDefaultDict(Owner)
     owners.set_now(datetime.now())
     [
         owners[DEVICE_OWNERS.get(device.device_name, 'Other')].add_device(device)
-        for device in device_connections
+        for device in DeviceConnection.query()
     ]
-
     owners_to_display = [
         owners.get('Jason'),
         owners.get('Michael'),
@@ -35,10 +35,10 @@ def homepage():
     backgroud = memcache.get(key='background')
     if not backgroud:
         backgroud = random.choice(BACKGROUNDS)
-        memcache.add(key='background', value=backgroud, time=86400)
+        memcache.add(key='background', value=backgroud, time=ONE_DAY)
+
     return render_template(
         'home.html',
-        logged_in=True,
         backgroud=backgroud,
         data=[owner for owner in owners_to_display if owner is not None]
     )
