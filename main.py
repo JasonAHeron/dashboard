@@ -1,9 +1,10 @@
-from constants import VALID_USERS, DEVICE_OWNERS
+from constants import VALID_USERS, DEVICE_OWNERS, BACKGROUNDS
 from datetime import datetime
 from flask import Flask, request, render_template
-from google.appengine.api import users
+from google.appengine.api import users, memcache
 from models import DeviceConnection, Owner
 from utils import KeyDefaultDict
+import random
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -30,9 +31,15 @@ def homepage():
         owners.get('Michael'),
         owners.get('Other')
     ]
+
+    backgroud = memcache.get(key='background')
+    if not backgroud:
+        backgroud = random.choice(BACKGROUNDS)
+        memcache.add(key='background', value=backgroud, time=86400)
     return render_template(
         'home.html',
         logged_in=True,
+        backgroud=backgroud,
         data=[owner for owner in owners_to_display if owner is not None]
     )
 
