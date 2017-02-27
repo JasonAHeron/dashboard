@@ -6,30 +6,21 @@ from models import DeviceConnection
 from collections import defaultdict
 from utils import user_is_not_authenticated, create_owners_dict
 import random
-from BART import BART as BARTY
+from BART import BART
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
 
-def auth(func):
-    def func_wrapper(*args, **kwargs):
-        if user_is_not_authenticated():
-            return redirect(users.create_login_url('/'), code=302)
-        return func(*args, **kwargs)
-    return func_wrapper
-
-
-
 @app.route('/bart')
-@auth
 def bart_estimates():
     """Return BART status cards."""
-    bart = BARTY()
+    if user_is_not_authenticated():
+        return redirect(users.create_login_url('/'), code=302)
     trains = defaultdict(list)
     [
         trains[train.departure.destination].append(str(train.minutes))
-        for train in bart['glen'].north
+        for train in BART()['glen'].north
     ]
     return render_template('bart.html', trains=trains)
 
