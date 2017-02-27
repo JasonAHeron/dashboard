@@ -1,0 +1,10 @@
+{% for key, value in trains.iteritems() %}
+  <div class="card">
+    <h4 class="card-title">{{key}}</h4>
+    {% for train_time in value %}
+      <div class="card-block">
+        <h6 class="card-subtitle">{{train_time}}</h6>
+      </div>
+    {% endfor %}
+  </div>
+{% endfor %}

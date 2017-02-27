@@ -27,11 +27,7 @@
                 <div class="col-5">
                 </div>
                 <div class="col">
-                    <div class="card">
-                        <h4 class="card-title">BART -> SFO</h4>
-                    </div>
-                    <div class="card">
-                        <h4 class="card-title">BART -> OAK</h4>
+                    <div class="bart_container">
                     </div>
                 </div>
             </div>
@@ -60,11 +56,21 @@
         }
         })
         };
+        function updateBART() {$.ajax({
+        url: document.URL + "bart",
+        context: $(".bart_container"),
+        success: function(data){
+        $(this).html(data);
+        }
+        })
+        };
         updateHomeCards();
+        updateBART();
         updateBackground();
         setInterval(function()
         {
         updateHomeCards()
+        updateBART()
         }, 59 * 1000);
         setInterval(function()
         {
