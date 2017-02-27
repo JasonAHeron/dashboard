@@ -1,0 +1,11 @@
+{% for device_owner in data%}
+  <div class="card {{ 'card-inverse card-success' if device_owner.is_home else '' }}">
+    <h4 class="card-title">{{device_owner.name}}</h4>
+    {% for device in device_owner.devices %}
+      <div class="card-block">
+        <h6 class="card-subtitle mb-2 text-muted">{{device.name}}</h6>
+        <p class="card-text">Last seen {{device.last_seen_days}} days, {{ device.last_seen_hours }} hours, {{ device.last_seen_minutes }} minutes ago</p>
+      </div>
+    {% endfor %}
+  </div>
+{% endfor %}
