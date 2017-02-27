@@ -4,7 +4,7 @@ from datetime import datetime
 from flask import Flask, request, render_template, redirect
 from google.appengine.api import users, memcache
 from models import DeviceConnection, Owner
-from utils import KeyDefaultDict
+from utils import user_is_not_authenticated, create_owners_dict
 import random
 
 app = Flask(__name__)
@@ -12,20 +12,32 @@ app.config['DEBUG'] = True
 ONE_DAY = 86400
 
 
+@app.route('/whoishome')
+def whoishome():
+    if user_is_not_authenticated():
+        return redirect(users.create_login_url('/'), code=302)
+    owners = create_owners_dict()
+    owners_to_display = [
+        owners.get('Jason'),
+        owners.get('Michael'),
+        owners.get('Other')
+    ]
+    return render_template(
+        'owner_cards.html',
+        data=[
+            owner for owner in owners_to_display
+            if owner is not None
+        ]
+    )
+
+
 @app.route('/')
 def homepage():
     """Return the dashboard homepage."""
-    user = users.get_current_user()
-    if not user or user.email().lower() not in VALID_USERS:
-        login_url = users.create_login_url('/')
-        return redirect(login_url, code=302)
+    if user_is_not_authenticated():
+        return redirect(users.create_login_url('/'), code=302)
 
-    owners = KeyDefaultDict(Owner)
-    owners.set_now(datetime.now())
-    [
-        owners[DEVICE_OWNERS.get(device.device_name, 'Other')].add_device(device)
-        for device in DeviceConnection.query()
-    ]
+    owners = create_owners_dict()
     owners_to_display = [
         owners.get('Jason'),
         owners.get('Michael'),
