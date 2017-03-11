@@ -1,3 +1,4 @@
+"""Some config constants."""
 DEVICE_OWNERS = {
     'android-d8973f71e80d2c9b': 'Jason',
     'Michaels-iPhone': 'Michael',
@@ -7,6 +8,7 @@ DEVICE_OWNERS = {
     'Michaels-MBP': 'Michael',
     'raspberrypi': 'House',
     '0005CD626483': 'House',
+    'DESKTOP-PDA8IVP': 'House',
 }
 PHONES = [
     'android-d8973f71e80d2c9b',

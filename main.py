@@ -1,22 +1,20 @@
 """Arlington Dashboard."""
-from constants import BACKGROUNDS
-from flask import Flask, request, render_template, redirect
-from google.appengine.api import users
-from models import DeviceConnection
-from collections import defaultdict
-from utils import user_is_not_authenticated, create_owners_dict
-import random
 from BART import BART
+from collections import defaultdict
+from constants import BACKGROUNDS
+from flask import Flask, request, render_template
+from models import DeviceConnection, RouterSecret
+from utils import login_required, create_owners_dict
+import random
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
 
 @app.route('/bart')
+@login_required
 def bart_estimates():
     """Return BART status cards."""
-    if user_is_not_authenticated():
-        return redirect(users.create_login_url('/'), code=302)
     trains = defaultdict(list)
     [
         trains[train.departure.destination].append(str(train.minutes))
@@ -26,23 +24,21 @@ def bart_estimates():
 
 
 @app.route('/background')
+@login_required
 def background():
     """Return the background URL."""
-    if user_is_not_authenticated():
-        return redirect(users.create_login_url('/'), code=302)
     return random.choice(BACKGROUNDS)
 
 
 @app.route('/whoishome')
-def whoishome():
-    """Return the home status cards."""
-    if user_is_not_authenticated():
-        return redirect(users.create_login_url('/'), code=302)
+@login_required
+def who_is_home():
+    """Return who is home status cards."""
     owners = create_owners_dict()
     owners_to_display = [
         owners.get('Jason'),
         owners.get('Michael'),
-        owners.get('Other')
+        owners.get('Other'),
     ]
     return render_template(
         'whoishome.html',
@@ -54,10 +50,9 @@ def whoishome():
 
 
 @app.route('/')
+@login_required
 def homepage():
     """Return the dashboard homepage."""
-    if user_is_not_authenticated():
-        return redirect(users.create_login_url('/'), code=302)
     return render_template('home.html')
 
 
@@ -65,7 +60,8 @@ def homepage():
 def update_devices():
     """Update datastore with current device last seen times."""
     devices = request.args.get('value')
-    if devices:
+    secret = request.args.get('secret')
+    if devices and secret == RouterSecret.value():
         for device in devices.split('\n'):
             key = DeviceConnection.find(device)
             if key:
