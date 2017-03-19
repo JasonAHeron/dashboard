@@ -9,6 +9,8 @@ DEVICE_OWNERS = {
     'raspberrypi': 'House',
     '0005CD626483': 'House',
     'DESKTOP-PDA8IVP': 'House',
+    'amazon-cfd6555c2': 'House',
+    'kindle-cfd6555c2': 'House',
 }
 PHONES = [
     'android-d8973f71e80d2c9b',
