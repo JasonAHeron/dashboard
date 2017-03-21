@@ -11,10 +11,14 @@ DEVICE_OWNERS = {
     'DESKTOP-PDA8IVP': 'House',
     'amazon-cfd6555c2': 'House',
     'kindle-cfd6555c2': 'House',
+    'android-ea26af12d6c0a3ff': 'Ho',
+    'DESKTOP-511ANJU': 'Ho',
+    'jbho-HP-Spectre-x360-Convertible': 'Ho'
 }
 PHONES = [
-    'android-d8973f71e80d2c9b',
-    'Michaels-iPhone',
+    'android-d8973f71e80d2c9b',  # Jason
+    'Michaels-iPhone',  # Michael
+    'android-ea26af12d6c0a3ff',  # Ho
 ]
 VALID_USERS = [
     'jasonaheron@gmail.com',
