@@ -25,6 +25,7 @@ VALID_USERS = [
     'michael@stewart.io',
     'arlingtondashboard@gmail.com',
 ]
+IMPORTANT_PEOPLE = set(['Michael', 'Jason'])
 BACKGROUNDS = [
     'https://lh6.googleusercontent.com/-A0tXm8gjfMU/U08VDMRGtuI/AAAAAAAAvrI/IQEscTGZyJY/s3840-w3840-h2160-c/IMG_0293%2Bhe.jpg',
     'https://lh6.googleusercontent.com/-3LiF-MBl6OE/UO5TXZ724aI/AAAAAAAAE50/JWLqdeEM9QY/s3840-w3840-h2160-c/Colorado%2BRiver%2BSunset.jpg',

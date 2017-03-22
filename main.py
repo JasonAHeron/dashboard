@@ -1,7 +1,7 @@
 """Arlington Dashboard."""
 from BART import BART
 from collections import defaultdict
-from constants import BACKGROUNDS
+from constants import BACKGROUNDS, IMPORTANT_PEOPLE
 from flask import Flask, request, render_template
 from models import DeviceConnection, RouterSecret
 from utils import login_required, create_owners_dict
@@ -35,15 +35,13 @@ def background():
 def who_is_home():
     """Return who is home status cards."""
     owners = create_owners_dict()
-    owners_to_display = [
-        owners.get('Jason'),
-        owners.get('Michael'),
-        owners.get('Other'),
+    important_owners = [
+        owners.get(person) for person in IMPORTANT_PEOPLE
     ]
     return render_template(
         'whoishome.html',
         data=[
-            owner for owner in owners_to_display
+            owner for owner in important_owners
             if owner is not None
         ]
     )
